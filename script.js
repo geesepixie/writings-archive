@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const essayList = document.querySelector(".essay-list");
   if (!essayList) return; // skip if page has no essay list
 
-  fetch('../library/groups.json')
+  fetch('library/groups.json')
     .then(response => response.json())
     .then(data => {
       essayList.innerHTML = "";
