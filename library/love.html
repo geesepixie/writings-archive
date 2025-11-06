@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2023</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="essay-page">
+  <div class="page-content">
+  <header>
+    <p class="date">-⋆.˚ ☾⭒.˚-</p>
+  </header>
+
+  <article id="essay-content">
+    Loading essay...
+  </article>
+
+  <script>
+  fetch('love.txt')
+    .then(res => res.text())
+    .then(text => {
+      const container = document.getElementById('essay-content');
+      // Split paragraphs by double line breaks and wrap each in <p>
+      const paragraphs = text.split(/\n\s*\n/);
+      container.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+    })
+    .catch(err => {
+      document.getElementById('essay-content').innerHTML = "<p>Failed to load essay.</p>";
+      console.error(err);
+    });
+  </script>
+
+  <footer>
+    <a href="../index.html">Finished?</a>
+  </footer>
+  </div>
+  <script src="../script.js"></script>
+</body>
+</html>

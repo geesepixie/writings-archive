@@ -1,0 +1,315 @@
+/* ===============================
+   Root Variables
+=============================== */
+:root {
+  /* Background & Text */
+  --bg-color: #BFA370;     
+  --text-color: #5d3220;    
+
+  /* Accents & Highlights */
+  --accent-light: #7B2F2B;
+  --accent-color: #5A1A17;
+  --hover-color: #7B2F2B;   
+  --border-color: #C9A878;  
+
+  /* Fonts */
+  --font-serif: 'Merriweather', serif;
+  --font-sans: 'Raleway', sans-serif;
+
+  /* Layout */
+  --max-width: 750px;
+}
+
+
+/* ===============================
+   OK IDK
+===============================*/
+.decor-line {
+  width: 60px;
+  height: 2px;
+  background-color: var(--accent-color);
+  margin: 1.5rem auto;
+  border-radius: 2px;
+}
+
+body {
+  font-family: var(--font-serif);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-size: 18px;
+
+  /* Background locked down */
+  background-image: url('assests/images/5690635.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; /* keeps it steady even when scrolling */
+  
+  /*animation: fadeIn 0.8s ease-in;*/
+  position: relative;
+}
+
+/* Soft overlay for readability */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background: rgba(244, 238, 197, 0.2); /* subtle tint */
+  z-index: -1;
+}
+
+
+/*@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}*/
+
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ===============================
+   Header
+===============================*/
+.site-header {
+  text-align: center;
+  padding: 3rem 0 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;       /* makes it italic */
+  font-weight: 700;         /* bold but italic */
+  font-size: 2.1rem;        /* adjust for your layout */
+  line-height: 1.2;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--accent-light);
+  letter-spacing: 3.1px;
+}
+
+
+.tagline {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--accent-color);
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   Intro Section
+=============================== */
+.intro-section {
+  text-align: center;
+  padding: 3rem 1rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.intro-section p {
+  color: var(--accent-color); /* dark red */
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+  text-align: left; /* more like a personal note, optional */
+}
+
+
+/* ===============================
+   Essay List
+=============================== */
+.essays-section {
+  padding: 2rem 1rem 4rem;
+}
+
+.essays-section h2 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.essay-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.essay-list li {
+  margin: 0.8rem 0;
+  font-family: var(--font-sans);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.essay-list a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.essay-list a:hover {
+  color: var(--hover-color);
+}
+
+.date {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   Footer
+=============================== */
+.site-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--border-color);
+  font-family: var(--font-sans);
+  color: var(--accent-color);
+  font-size: 0.95rem;
+}
+
+.site-footer a {
+  color: var(--hover-color);
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+/* ===============================
+   Essay Page Styling
+=============================== */
+.essay-page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.essay-page header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.essay-page h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.essay-page .date {
+  color: var(--accent-color);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* Article & Paragraph styling */
+.essay-page article {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  letter-spacing: 0.2px;
+  color: var(--text-color);
+}
+
+.essay-page article p {
+  margin-bottom: 1.2em;
+  line-height: 1.8;
+  text-align: justify;
+  font-size: 1.25rem; /* slightly larger text */
+}
+
+.essay-page article p:first-letter {
+  font-size: 1.4rem;
+  color: var(--hover-color);
+  font-weight: 500;
+  margin-right: 3px;
+}
+
+.essay-page footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.essay-page footer a {
+  text-decoration: none;
+  color: var(--hover-color);
+  font-family: var(--font-sans);
+}
+
+/* Flex container for intro + essays */
+.content-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0 1.5rem; /* keep same horizontal padding as container */
+}
+
+/* Each section takes half of the available width */
+.intro-section,
+.essays-section {
+  flex: 1 1 50%;
+  max-width: 50%;
+  box-sizing: border-box; /* includes padding in width */
+}
+
+/* Keep intro text aligned nicely */
+.intro-section {
+  text-align: left;
+}
+
+/* Optional: essays section scrollable if long */
+.essays-section {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Responsive: stack sections on small screens */
+@media (max-width: 768px) {
+  .content-row {
+    flex-direction: column;
+  }
+  
+  .intro-section,
+  .essays-section {
+    max-width: 100%;
+  }
+}
+
+/* Page transition animations - fade only */
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* so clicks/keys go through */
+  z-index: 0; /* behind content */
+}

@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Echoes — Quiet Space</title>
+
+<audio id="introSound" src="assests/sounds/just_breahte_listen_andBePresent.mp3" preload="auto"></audio>
+
+<style>
+  :root{
+    --bg-img: url('assests/images/5690635.jpg');
+    --text-color: #5d3220; /* warm brown */
+    --font-serif: "Cormorant Garamond", serif; /* your font, slightly bolder in panels */
+    --font-sans: "Raleway", sans-serif;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background-image: var(--bg-img);
+    background-position:center center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    color:var(--text-color);
+    font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow:hidden; /* avoid page scrolling on space */
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background: rgba(255,255,255,0.06);
+    pointer-events:none;
+  }
+
+  .quiet-root{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 3rem;
+    box-sizing:border-box;
+    text-align:center;
+  }
+
+  /* base panel: absolutely centered; hidden by display:none to avoid stacking */
+ .panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;   /* stack children vertically */
+  align-items: center;      /* center horizontally */
+  justify-content: center;  /* center vertically */
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px) scale(.995);
+  transition: opacity 0.95s cubic-bezier(.2,.8,.2,1), transform 0.95s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+
+  .panel.visible{
+    opacity:1;
+    transform: translateY(0) scale(1);
+    pointer-events:auto;
+  }
+
+  .wrap {
+  display: flex;          /* changed from inline-block */
+  flex-direction: column; /* stack children vertically */
+  align-items: center;    /* center horizontally */
+  max-width: 1000px;
+  width: min(92vw, 1000px);
+  line-height: 1.35;
+  white-space: normal;
+  text-align: center;
+  font-weight: 600;       /* slightly bolder as requested */
+}
+
+.sub {
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+  opacity: 0.98;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  text-align: center;     /* ensure it's centered under main text */
+}
+
+  /* sizes: tiny < small < normal < medium < large < huge */
+  .tiny { font-size: 0.62rem; }
+  .small { font-size: 0.95rem; }
+  .normal { font-size: 1.35rem; }
+  .medium { font-size: 1.9rem; }   /* extra step between normal and large */
+  .large { font-size: 2.7rem; }
+  .larger { font-size: 3.45rem; }
+  .huge { font-size: 4.2rem; }
+
+  /* countdown big number panel (blank background with big number) */
+  .count-panel { background: rgba(255,255,255,0.01); }
+  .count-number {
+    font-family: var(--font-sans);
+    font-weight:700;
+    font-size: 6.5rem;
+    line-height: 0.9;
+    margin: 0;
+    letter-spacing: .5rem;
+    color: var(--text-color);
+  }
+  @media (max-width:520px){
+    .count-number { font-size: 3.0rem; letter-spacing: .2rem; }
+    .huge { font-size: 2.8rem; }
+    .large { font-size: 2.2rem; }
+    .medium { font-size: 1.25rem; }
+    .normal { font-size: 1.05rem; }
+    .small { font-size: 0.9rem; }
+    .tiny { font-size: 0.52rem; }
+  }
+
+  .help {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: rgba(93,50,32,0.74);
+    background: rgba(255,255,255,0.02);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(93,50,32,0.04);
+    backdrop-filter: blur(2px);
+  }
+
+</style>
+</head>
+<body>
+  <div class="quiet-root" id="root"></div>
+<script>
+  
+
+const introSound = new Audio("../assests/sounds/just_breahte_listen_andBePresent.mp3");
+introSound.preload = "auto";
+introSound.volume = 0.5;
+
+
+
+(function(){
+  // Panels in exact order you specified; sizes tuned by eye.
+  const panels = [
+
+  { main: "communication with this page will be attended to via the [spacebar] key,", sub: "gently, press that key", size: "normal" },
+
+  { main: "so, you followed the pattern", sub: "or perhaps the pattern followed you", size: "normal" },
+
+  { main: "either way,", sub: "you’ve arrived", size: "medium" },
+
+  { main: "welcome to the quiet place", sub: "a calm space inspired by another, reimagined for you", size: "normal" },
+
+  { main: "this experience is non-commercial, created in tribute to the original", sub: null, size: "small" },
+
+  { main: "if you wish to leave, you may close this tab at any moment", sub: "there are no traps here", size: "small" },
+  
+  { main: "to fully embrace the experience, please silence your phone, turn on your speakers, and press the [f-11] key—or [cmd+shift+f] on mac", sub: "", size: "normal" },
+
+    { main: "indeed, silence your phone. nothing else truly matters here", sub: "rest assured - this is not one of those places that startle you", size: "normal" },
+
+    { main: "here, there are no caps", sub: "no letters shouting at you", size: "normal" },
+
+    { main: "and there are no facebook notifications...", sub: null, size: "normal" },
+    { main: "nor twitter...", sub: null, size: "normal" },
+
+    { main: "...email...", sub: null, size: "medium" },
+    { main: "...instagram...", sub: null, size: "large" },
+    { main: "...whatsapp...", sub: null, size: "larger" },
+    { main: "...messenger....", sub: null, size: "huge" },
+    { main: "...etc...", sub: null, size: "huge" },
+    { main: "...etc...", sub: null, size: "huge" },
+    { main: "...etc...", sub: null, size: "huge" },
+
+    { main: "....", sub: null, size: "normal" },
+    { main: "oh", sub: null, size: "tiny" },
+
+    { main: "have you ever noticed how many things demand your attention?", sub: null, size: "normal" },
+
+    { main: "you may be thinking of all the notifications you are missing at this very moment", sub: null, size: "small" },
+
+    { main: "try to remain patient", sub: null, size: "normal" },
+    { main: "just for a few minutes", sub: null, size: "normal" },
+    { main: "just to clear your mind for a while", sub: null, size: "normal" },
+    { main: "i assure you, you are not missing anything of true importance", sub: null, size: "normal" },
+
+    { main: "and if concern lingers, allow me to summarize", sub: null, size: "normal" },
+
+    { main: "some \"friend\" you scarcely know made a trivial observation about something that recently occurred", sub: "or perhaps commented upon a trivial observation that you wrote about something that recently happened", size: "small" },
+
+    { main: "you think it's all a jest, do you not?", sub: null, size: "normal" },
+    { main: "a jest upon the course of human affairs?", sub: null, size: "normal" },
+
+    { main: "yet in every jest lies a fragment of truth", sub: null, size: "normal" },
+
+    { main: "and the truth is, amidst all these so-called great social services, something has been overlooked", sub: null, size: "normal" },
+
+    { main: "we forgot to pause now and then", sub: null, size: "normal" },
+    { main: "a genuine pause", sub: null, size: "normal" },
+
+    { main: "a walk in the park, or a retreat to the mountains, can be profoundly sweet", sub: null, size: "normal" },
+
+    { main: "but when you carry your phone with you, nothing of note is truly achieved", sub: null, size: "normal" },
+
+    { main: "your mind remains burdened by these trivial, incessant details", sub: null, size: "normal" },
+
+    { main: "trivial. incessant. details.", sub: null, size: "large" },
+
+    { main: "trivial", sub: null, size: "huge" },
+    { main: "inconsequential", sub: null, size: "tiny" },
+    { main: "fleeting", sub: null, size: "tiny" },
+
+    { main: "a friend remarked upon your post", sub: null, size: "normal" },
+    { main: "a friend shared a video with you", sub: null, size: "normal" },
+    { main: "a friend appreciated your link", sub: null, size: "normal" },
+
+    { main: "a friend this", sub: null, size: "normal" },
+    { main: "a friend that", sub: null, size: "normal" },
+    { main: "a friend", sub: null, size: "normal" },
+    { main: "a friend", sub: null, size: "normal" },
+    { main: "a friend", sub: null, size: "normal" },
+
+    { main: "trivial", sub: null, size: "large" },
+    { main: "inconsequential", sub: null, size: "large" },
+    { main: "fleeting", sub: null, size: "large" },
+
+    { main: "hm..", sub: null, size: "tiny" },
+
+    { main: "...", sub: null, size: "normal" },
+
+    { main: "relax", sub: null, size: "normal" },
+
+    { main: "for 30 seconds", sub: "do nothing else. you can manage it. truly, it is just 30 seconds", size: "normal", special: "start-countdown" },
+
+    { main: "feels exquisite, does it not?", sub: null, size: "normal" },
+    { main: ":)", sub: null, size: "normal" },
+    { main: "i shall bid you farewell soon", sub: null, size: "normal" },
+    { main: "and allow you to return to your notifications", sub: null, size: "normal" },
+    { main: "but before that, a brief counsel:", sub: null, size: "normal" },
+    { main: "from time to time...", sub: null, size: "normal" },
+    { main: "halt everything", sub: null, size: "normal" },
+    { main: "and retreat to your quiet place", sub: null, size: "normal" },
+    { main: "...", sub: null, size: "normal" },
+    { main: "~ farewell", sub: null, size: "tiny" }
+
+
+  ];
+
+  const root = document.getElementById('root');
+  const nodes = [];
+  let current = 0;
+  let animating = false;
+  let inCountdown = false;
+  let countdownTimer = null;
+  let queuedAdvances = 0; // count rapid presses while animating to process after animation
+
+  // build DOM nodes (except the big countdown panel)
+  panels.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'panel ' + (p.size || 'normal');
+    el.dataset.idx = i;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'wrap';
+    wrap.innerHTML = escapeHtml(p.main);
+    el.appendChild(wrap);
+
+    if (p.sub) {
+      const sub = document.createElement('div');
+      sub.className = 'sub';
+      sub.innerHTML = escapeHtml(p.sub);
+      el.appendChild(sub);
+    }
+
+    el.style.display = 'none';
+    root.appendChild(el);
+    nodes.push(el);
+  });
+
+  // create countdown panel (separate element)
+  const countPanel = document.createElement('div');
+  countPanel.className = 'panel count-panel';
+  countPanel.style.display = 'none';
+  const countWrap = document.createElement('div');
+  countWrap.className = 'wrap';
+  const countNumber = document.createElement('div');
+  countNumber.className = 'count-number';
+  countNumber.textContent = '30';
+  countWrap.appendChild(countNumber);
+  countPanel.appendChild(countWrap);
+  root.appendChild(countPanel);
+
+ function showPanel(idx) {
+  if (idx < 0 || idx >= nodes.length) return;
+
+  const incoming = nodes[idx];
+  const outgoing = nodes[current];
+
+  // Immediately hide outgoing
+  if (outgoing && outgoing !== incoming) {
+    outgoing.classList.remove('visible');
+    outgoing.style.display = 'none';
+  }
+
+  // Immediately show incoming
+  incoming.style.display = 'flex';
+  void incoming.offsetWidth; // force reflow
+  incoming.classList.add('visible');
+
+  current = idx;
+  animating = false; // remove artificial block
+
+  // Process queued presses immediately
+  if (queuedAdvances > 0) {
+    const next = current + 1;
+    if (next < nodes.length) {
+      queuedAdvances--;
+      showPanel(next);
+    } else {
+      queuedAdvances = 0;
+    }
+  }
+}
+
+
+  // show the big blank countdown panel (separate flow)
+  function showCountdownPanel(startValue = 30, doneCb) {
+    if (animating) {
+      // queue for after current animation
+      queuedAdvances++;
+      return;
+    }
+    animating = true;
+    // hide current panel
+    const outgoing = nodes[current];
+    if (outgoing && outgoing.classList.contains('visible')) {
+      outgoing.classList.remove('visible');
+      const onOut = (ev) => {
+        if (ev.propertyName === 'opacity') {
+          outgoing.style.display = 'none';
+          outgoing.removeEventListener('transitionend', onOut);
+        }
+      };
+      outgoing.addEventListener('transitionend', onOut);
+    }
+
+    // show count panel
+    setTimeout(() => {
+      countNumber.textContent = String(startValue);
+      countPanel.style.display = 'flex';
+      void countPanel.offsetWidth;
+      countPanel.classList.add('visible');
+
+      const onIn = (ev) => {
+        if (ev.propertyName === 'opacity') {
+          countPanel.removeEventListener('transitionend', onIn);
+          animating = false;
+          // now run the countdown automatically
+          runCountdown(startValue, () => {
+            // hide count panel and continue
+            hideCountPanel();
+            if (doneCb) doneCb();
+          });
+        }
+      };
+      countPanel.addEventListener('transitionend', onIn);
+    }, 80);
+  }
+
+  function hideCountPanel() {
+    // fade out countPanel
+    countPanel.classList.remove('visible');
+    const onOut = (ev) => {
+      if (ev.propertyName === 'opacity') {
+        countPanel.style.display = 'none';
+        countPanel.removeEventListener('transitionend', onOut);
+      }
+    };
+    countPanel.addEventListener('transitionend', onOut);
+  }
+
+  // countdown numeric loop (1s ticks)
+  function runCountdown(startVal, done) {
+  if (inCountdown) return;
+  inCountdown = true;
+  queuedAdvances = 0;
+  let n = startVal;
+
+  // Initialize first number
+  countNumber.textContent = String(n);
+  countNumber.style.opacity = '1';
+  countNumber.style.transform = 'none';
+  countNumber.style.transition = 'none';
+
+  countdownTimer = setInterval(() => {
+    n--;
+    if (n < 0) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      inCountdown = false;
+      if (done) done();
+      return;
+    }
+
+    // Just update the number directly, no animations
+    countNumber.textContent = String(n);
+
+  }, 1000);
+}
+
+
+
+  function nextPanel(auto=false) {
+  if (inCountdown && !auto) return;
+
+  if (animating) {
+    queuedAdvances++;
+    return;
+  }
+
+  const next = current + 1;
+
+  // If user presses after the last panel ("farewell"), redirect
+  if (next >= nodes.length) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  showPanel(next);
+}
+
+
+  function prevPanel() {
+    const prev = Math.max(0, current - 1);
+    showPanel(prev);
+  }
+
+  // keyboard handler with short debounce: fast presses are queued (queuedAdvances)
+  let lastKeyTime = 0;
+  window.addEventListener('keydown', (ev) => {
+    if (ev.code === 'Space') {
+      ev.preventDefault();
+      // If current panel has special 'start-countdown', pressing space should open countdown panel (blank + number)
+      const curPanelData = panels[current];
+      const now = Date.now();
+      // allow all presses but prevent double-firing due to key repeat: require small spacing
+      if (now - lastKeyTime < 80) return;
+      lastKeyTime = now;
+
+      if (inCountdown) return;
+
+      if (curPanelData && curPanelData.special === 'start-countdown') {
+        // user pressed space to start actual countdown screen (30->0)
+        showCountdownPanel(30, () => {
+          // when countdown done, move to next panel automatically
+          nextPanel(true);
+        });
+        return;
+      }
+
+      if (animating) {
+        queuedAdvances = Math.min(8, queuedAdvances + 1);
+        return;
+      }
+      nextPanel();
+    } else if (ev.code === 'ArrowLeft') {
+      prevPanel();
+    } else if (ev.code === 'ArrowRight') {
+      nextPanel();
+    }
+  }, { passive: false });
+
+  // click/tap to advance unless it's the countdown trigger panel -> then show countdown on next tap
+  window.addEventListener('keydown', (ev) => {
+  if (ev.code === 'Space') {
+    ev.preventDefault();
+
+    // Play audio on first space press
+    if (!introSound.played.length) {
+      introSound.play().catch(err => console.log("Audio playback blocked:", err));
+    }
+
+    const curPanelData = panels[current];
+    const now = Date.now();
+    if (now - lastKeyTime < 80) return;
+    lastKeyTime = now;
+
+    if (inCountdown) return;
+
+    if (curPanelData && curPanelData.special === 'start-countdown') {
+      showCountdownPanel(30, () => nextPanel(true));
+      return;
+    }
+
+    if (animating) {
+      return;
+    }
+    nextPanel();
+  }
+});
+
+
+  // initial show
+  if (nodes.length > 0) {
+    nodes[0].style.display = 'flex';
+    // small async so css paints first
+    requestAnimationFrame(() => nodes[0].classList.add('visible'));
+  }
+
+               // small utility
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+               // keep focus
+  try { window.focus(); } catch(e) {}
+})();
+</script>
+</body>
+</html>
