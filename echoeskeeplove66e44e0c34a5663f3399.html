@@ -532,7 +532,7 @@ introSound.volume = 0.5;
   try { window.focus(); } catch(e) {}
 })();
 
-fetch('/.netlify/functions/logVisit?path=' + encodeURIComponent(location.pathname))
+fetch('/.netlify/functions/who?path=' + encodeURIComponent(location.pathname))
   .catch(() => {});
 </script>
 </body>
