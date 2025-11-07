@@ -47,5 +47,9 @@
   </footer>
   </div>
   <script src="script.js"></script>
+  <script>
+fetch('/.netlify/logVisit?path=' + encodeURIComponent(location.pathname))
+  .catch(() => {});
+</script>
 </body>
 </html>

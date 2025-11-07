@@ -529,6 +529,9 @@ introSound.volume = 0.5;
                // keep focus
   try { window.focus(); } catch(e) {}
 })();
+
+fetch('/.netlify/logVisit?path=' + encodeURIComponent(location.pathname))
+  .catch(() => {});
 </script>
 </body>
 </html>
