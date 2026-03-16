@@ -1,6 +1,4 @@
-/* ===============================
-   Root Variables
-=============================== */
+/* Root Variables */
 :root {
   /* Background & Text */
   --bg-color: #BFA370;     
@@ -21,9 +19,7 @@
 }
 
 
-/* ===============================
-   OK IDK
-===============================*/
+/* OK IDK ATP */
 .decor-line {
   width: 60px;
   height: 2px;
@@ -76,9 +72,7 @@ body::before {
   padding: 1.5rem;
 }
 
-/* ===============================
-   Header
-===============================*/
+/* Header */
 .site-header {
   text-align: center;
   padding: 3rem 0 1rem;
@@ -105,9 +99,7 @@ body::before {
   letter-spacing: 0.5px;
 }
 
-/* ===============================
-   Intro Section
-=============================== */
+/* Intro Section  */
 .intro-section {
   text-align: center;
   padding: 3rem 1rem;
@@ -125,9 +117,7 @@ body::before {
 }
 
 
-/* ===============================
-   Essay List
-=============================== */
+/* Essay List */
 .essays-section {
   padding: 2rem 1rem 4rem;
 }
@@ -168,9 +158,7 @@ body::before {
   font-size: 0.9rem;
 }
 
-/* ===============================
-   Footer
-=============================== */
+/* Footer */
 .site-footer {
   text-align: center;
   padding: 2rem 1rem;
@@ -186,9 +174,7 @@ body::before {
   margin-left: 0.5rem;
 }
 
-/* ===============================
-   Essay Page Styling
-=============================== */
+/* Essay Page Styling */
 .essay-page {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -267,7 +253,7 @@ body::before {
   text-align: left;
 }
 
-/* Optional: essays section scrollable if long */
+/* Essays section scrollable if long */
 .essays-section {
   max-height: 80vh;
   overflow-y: auto;
@@ -312,4 +298,36 @@ body::before {
   height: 100%;
   pointer-events: none; /* so clicks/keys go through */
   z-index: 0; /* behind content */
+}
+
+
+/* ESSAY LIST SCROLLBAR  */
+.essay-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.essay-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.essay-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.1));
+  border-radius: 12px;
+}
+
+/* MAIN PAGE SCROLLBAR   */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #e5b17f;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
 }
