@@ -302,15 +302,16 @@ body::before {
 
 
 /* ESSAY LIST SCROLLBAR  */
-.essay-list::-webkit-scrollbar {
+/* The container that actually scrolls (at least I hope so) */
+.essays-section::-webkit-scrollbar {
   width: 6px;
 }
 
-.essay-list::-webkit-scrollbar-track {
+.essays-section::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.essay-list::-webkit-scrollbar-thumb {
+.essays-section::-webkit-scrollbar-thumb {
   background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.1));
   border-radius: 12px;
 }
