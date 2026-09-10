@@ -59,6 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
         a.href = essay.url;
         a.textContent = essay.title;
 
+        if (essay.featured) {
+          a.classList.add("featured");
+        }
+
         const span = document.createElement("span");
         span.classList.add("date");
         span.textContent = `· ${essay.date}`;
